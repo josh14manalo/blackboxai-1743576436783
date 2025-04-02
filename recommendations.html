@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendations - BrightMind</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-brain text-2xl"></i>
+                    <h1 class="text-2xl font-bold">BrightMind</h1>
+                </div>
+                <nav>
+                    <ul class="flex space-x-6">
+                        <li><a href="index.html" class="hover:text-indigo-200">Home</a></li>
+                        <li><a href="iq-test.html" class="hover:text-indigo-200">IQ Test</a></li>
+                        <li><a href="health-check.html" class="hover:text-indigo-200">Health Check</a></li>
+                        <li><a href="recommendations.html" class="hover:text-indigo-200 font-medium">Recommendations</a></li>
+                        <li><a href="tutoring.html" class="hover:text-indigo-200">AI Tutor</a></li>
+                        <li><a href="progress.html" class="hover:text-indigo-200">Progress</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+            <div class="p-8">
+                <h2 class="text-3xl font-bold text-center mb-8">Personalized Recommendations</h2>
+                
+                <!-- Summary Card -->
+                <div class="bg-indigo-50 p-6 rounded-lg mb-8">
+                    <h3 class="text-xl font-semibold mb-4 text-indigo-700">Your Current Status</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-medium mb-2">Cognitive Performance</h4>
+                            <div class="flex items-center">
+                                <div class="w-full bg-gray-200 rounded-full h-2.5 mr-4">
+                                    <div class="bg-indigo-600 h-2.5 rounded-full" id="cognitive-score" style="width: 0%"></div>
+                                </div>
+                                <span class="text-sm font-medium" id="cognitive-percent">0%</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-medium mb-2">Health Status</h4>
+                            <div class="flex items-center">
+                                <div class="w-full bg-gray-200 rounded-full h-2.5 mr-4">
+                                    <div class="bg-green-500 h-2.5 rounded-full" id="health-score" style="width: 0%"></div>
+                                </div>
+                                <span class="text-sm font-medium" id="health-percent">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recommendations Tabs -->
+                <div class="mb-8">
+                    <div class="border-b border-gray-200">
+                        <ul class="flex flex-wrap -mb-px" id="recommendation-tabs">
+                            <li class="mr-2">
+                                <button class="inline-block p-4 border-b-2 border-indigo-600 rounded-t-lg text-indigo-600 font-medium active" 
+                                        id="study-tab" data-tab="study">Study Strategies</button>
+                            </li>
+                            <li class="mr-2">
+                                <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 font-medium" 
+                                        id="health-tab" data-tab="health">Health & Wellness</button>
+                            </li>
+                            <li class="mr-2">
+                                <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 font-medium" 
+                                        id="nutrition-tab" data-tab="nutrition">Nutrition</button>
+                            </li>
+                            <li>
+                                <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 font-medium" 
+                                        id="time-tab" data-tab="time">Time Management</button>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Tab Contents -->
+                    <div id="study-content" class="tab-content p-4 bg-gray-50 rounded-b-lg">
+                        <ul class="list-disc pl-5 space-y-2" id="study-recommendations">
+                            <!-- Study recommendations will be loaded here -->
+                        </ul>
+                    </div>
+                    
+                    <div id="health-content" class="tab-content hidden p-4 bg-gray-50 rounded-b-lg">
+                        <ul class="list-disc pl-5 space-y-2" id="health-recommendations">
+                            <!-- Health recommendations will be loaded here -->
+                        </ul>
+                    </div>
+                    
+                    <div id="nutrition-content" class="tab-content hidden p-4 bg-gray-50 rounded-b-lg">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold mb-3">Meal Suggestions</h4>
+                                <ul class="list-disc pl-5 space-y-2" id="meal-recommendations">
+                                    <!-- Meal recommendations will be loaded here -->
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-3">Snack Ideas</h4>
+                                <ul class="list-disc pl-5 space-y-2" id="snack-recommendations">
+                                    <!-- Snack recommendations will be loaded here -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="time-content" class="tab-content hidden p-4 bg-gray-50 rounded-b-lg">
+                        <ul class="list-disc pl-5 space-y-2" id="time-recommendations">
+                            <!-- Time management recommendations will be loaded here -->
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Affordable Options Section -->
+                <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4">Budget-Friendly Options</h3>
+                    <p class="text-gray-600 mb-4">These recommendations are tailored for students with limited budgets:</p>
+                    
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-indigo-50 p-4 rounded-lg">
+                            <div class="text-indigo-600 mb-2">
+                                <i class="fas fa-utensils text-2xl"></i>
+                            </div>
+                            <h4 class="font-medium mb-2">Affordable Meals</h4>
+                            <p class="text-sm text-gray-600">Eggs, rice, and local vegetables provide complete nutrition at low cost.</p>
+                        </div>
+                        <div class="bg-indigo-50 p-4 rounded-lg">
+                            <div class="text-indigo-600 mb-2">
+                                <i class="fas fa-dumbbell text-2xl"></i>
+                            </div>
+                            <h4 class="font-medium mb-2">Free Exercises</h4>
+                            <p class="text-sm text-gray-600">Bodyweight exercises and walking are effective and free.</p>
+                        </div>
+                        <div class="bg-indigo-50 p-4 rounded-lg">
+                            <div class="text-indigo-600 mb-2">
+                                <i class="fas fa-book text-2xl"></i>
+                            </div>
+                            <h4 class="font-medium mb-2">Study Resources</h4>
+                            <p class="text-sm text-gray-600">Utilize free online courses and library materials.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-brain text-2xl"></i>
+                        <h2 class="text-xl font-bold">BrightMind</h2>
+                    </div>
+                    <p class="text-gray-400 mt-2">For PUP Mulanay Students</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-indigo-400"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-indigo-400"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="hover:text-indigo-400"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400">
+                <p>&copy; 2023 BrightMind. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Tab functionality
+        document.querySelectorAll('[data-tab]').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                document.querySelectorAll('[data-tab]').forEach(t => {
+                    t.classList.remove('border-indigo-600', 'text-indigo-600');
+                    t.classList.add('border-transparent');
+                });
+                
+                // Add active class to clicked tab
+                tab.classList.add('border-indigo-600', 'text-indigo-600');
+                tab.classList.remove('border-transparent');
+                
+                // Hide all tab contents
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+                
+                // Show selected tab content
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(`${tabId}-content`).classList.remove('hidden');
+            });
+        });
+
+        // Load recommendations from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get latest IQ test result
+            const iqResults = JSON.parse(localStorage.getItem('brightmind_iq_scores')) || [];
+            const latestIq = iqResults[iqResults.length - 1];
+            
+            // Get latest health data
+            const healthData = JSON.parse(localStorage.getItem('brightmind_health_data')) || [];
+            const latestHealth = healthData[healthData.length - 1];
+            
+            // Update summary
+            if (latestIq) {
+                const cognitivePercent = latestIq.percentage;
+                document.getElementById('cognitive-score').style.width = `${cognitivePercent}%`;
+                document.getElementById('cognitive-percent').textContent = `${cognitivePercent}%`;
+            }
+            
+            if (latestHealth) {
+                // Calculate health score average
+                const healthScore = Math.round((latestHealth.focus + latestHealth.sleep + latestHealth.energy) / 3);
+                document.getElementById('health-score').style.width = `${healthScore}%`;
+                document.getElementById('health-percent').textContent = `${healthScore}%`;
+            }
+            
+            // Generate recommendations based on data
+            generateStudyRecommendations(latestIq);
+            generateHealthRecommendations(latestHealth);
+            generateNutritionRecommendations();
+            generateTimeRecommendations();
+        });
+
+        // Generate study recommendations
+        function generateStudyRecommendations(iqData) {
+            const studyList = document.getElementById('study-recommendations');
+            studyList.innerHTML = '';
+            
+            if (!iqData) {
+                studyList.innerHTML = '<li>Take an IQ test to get personalized study recommendations</li>';
+                return;
+            }
+            
+            if (iqData.percentage >= 80) {
+                studyList.innerHTML += `
+                    <li>Challenge yourself with advanced material in your strongest subjects</li>
+                    <li>Try teaching concepts to peers to deepen your understanding</li>
+                    <li>Explore interdisciplinary connections between subjects</li>
+                `;
+            } else if (iqData.percentage >= 60) {
+                studyList.innerHTML += `
+                    <li>Focus on understanding fundamental concepts before advancing</li>
+                    <li>Use active recall techniques like flashcards for memorization</li>
+                    <li>Break study sessions into 45-minute blocks with short breaks</li>
+                `;
+            } else {
+                studyList.innerHTML += `
+                    <li>Start with foundational concepts and build gradually</li>
+                    <li>Use visual aids and diagrams to understand complex ideas</li>
+                    <li>Practice basic problems repeatedly to build confidence</li>
+                `;
+            }
+            
+            // General recommendations
+            studyList.innerHTML += `
+                <li>Review material within 24 hours of learning it</li>
+                <li>Create a dedicated study space free from distractions</li>
+            `;
+        }
+
+        // Generate health recommendations
+        function generateHealthRecommendations(healthData) {
+            const healthList = document.getElementById('health-recommendations');
+            healthList.innerHTML = '';
+            
+            if (!healthData) {
+                healthList.innerHTML = '<li>Complete a health check to get personalized recommendations</li>';
+                return;
+            }
+            
+            // Stress recommendations
+            if (healthData.stress > 50) {
+                healthList.innerHTML += `
+                    <li>Practice 5-5-5 breathing: Inhale 5 sec, hold 5 sec, exhale 5 sec</li>
+                    <li>Schedule short relaxation breaks during study sessions</li>
+                `;
+            }
+            
+            // Sleep recommendations
+            if (healthData.sleep < 60) {
+                healthList.innerHTML += `
+                    <li>Establish a consistent bedtime routine</li>
+                    <li>Reduce screen time 1 hour before bed</li>
+                `;
+            }
+            
+            // Energy recommendations
+            if (healthData.energy < 60) {
+                healthList.innerHTML += `
+                    <li>Take a 10-minute walk when feeling sluggish</li>
+                    <li>Stay hydrated - drink water regularly</li>
+                `;
+            }
+            
+            // General recommendations
+            healthList.innerHTML += `
+                <li>Aim for 7-8 hours of sleep nightly</li>
+                <li>Incorporate 30 minutes of physical activity daily</li>
+            `;
+        }
+
+        // Generate nutrition recommendations
+        function generateNutritionRecommendations() {
+            const mealList = document.getElementById('meal-recommendations');
+            const snackList = document.getElementById('snack-recommendations');
+            
+            mealList.innerHTML = `
+                <li>Chicken adobo with rice and steamed vegetables</li>
+                <li>Tuna sandwich on whole wheat with side salad</li>
+                <li>Egg fried rice with mixed vegetables</li>
+                <li>Pork sinigang with rice</li>
+                <li>Grilled fish with quinoa and sautéed greens</li>
+            `;
+            
+            snackList.innerHTML = `
+                <li>Banana with peanut butter</li>
+                <li>Hard-boiled eggs</li>
+                <li>Mixed nuts and dried fruit</li>
+                <li>Yogurt with local fruits</li>
+                <li>Whole grain crackers with cheese</li>
+            `;
+        }
+
+        // Generate time management recommendations
+        function generateTimeRecommendations() {
+            const timeList = document.getElementById('time-recommendations');
+            
+            timeList.innerHTML = `
+                <li>Use a planner to schedule study sessions and deadlines</li>
+                <li>Prioritize tasks using the Eisenhower Matrix (urgent/important)</li>
+                <li>Batch similar tasks together (e.g., all reading at once)</li>
+                <li>Set specific goals for each study session</li>
+                <li>Review your schedule at the start and end of each day</li>
+            `;
+        }
+    </script>
+</body>
+</html>
