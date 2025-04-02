@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - BrightMind</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .floating-companion {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Check if user is logged in -->
+    <script>
+        if (!localStorage.getItem('currentUser')) {
+            window.location.href = 'login.html';
+        }
+    </script>
+
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-brain text-2xl"></i>
+                    <h1 class="text-2xl font-bold">BrightMind</h1>
+                </div>
+                <nav>
+                    <ul class="flex space-x-6">
+                        <li><a href="index.html" class="hover:text-indigo-200">Home</a></li>
+                        <li><a href="profile.html" class="hover:text-indigo-200 font-medium">Profile</a></li>
+                        <li><a href="schedule.html" class="hover:text-indigo-200">Schedule</a></li>
+                        <li><a href="#" id="logout-btn" class="hover:text-indigo-200">Logout</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row gap-8">
+                <!-- Profile Sidebar -->
+                <div class="w-full md:w-1/3 bg-white p-6 rounded-xl shadow-md">
+                    <div class="text-center mb-6">
+                        <div class="w-24 h-24 bg-indigo-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i class="fas fa-user text-3xl text-indigo-600"></i>
+                        </div>
+                        <h2 id="user-name" class="text-xl font-bold">John Doe</h2>
+                        <p id="user-email" class="text-gray-600">john@example.com</p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="font-semibold mb-2">Account Created</h3>
+                            <p id="join-date" class="text-gray-600">January 1, 2023</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-semibold mb-2">Last IQ Test</h3>
+                            <p id="last-iq" class="text-gray-600">Not taken yet</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-semibold mb-2">Health Status</h3>
+                            <p id="health-status" class="text-gray-600">No data yet</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Main Content Area -->
+                <div class="w-full md:w-2/3">
+                    <!-- Quick Actions -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <a href="iq-test.html" class="bg-indigo-100 text-indigo-800 p-4 rounded-lg hover:bg-indigo-200 transition flex items-center">
+                            <i class="fas fa-brain text-2xl mr-4"></i>
+                            <span>Take IQ Test</span>
+                        </a>
+                        <a href="health-check.html" class="bg-green-100 text-green-800 p-4 rounded-lg hover:bg-green-200 transition flex items-center">
+                            <i class="fas fa-heartbeat text-2xl mr-4"></i>
+                            <span>Health Check</span>
+                        </a>
+                        <a href="tutoring.html" class="bg-blue-100 text-blue-800 p-4 rounded-lg hover:bg-blue-200 transition flex items-center">
+                            <i class="fas fa-robot text-2xl mr-4"></i>
+                            <span>AI Tutor</span>
+                        </a>
+                        <a href="schedule.html" class="bg-purple-100 text-purple-800 p-4 rounded-lg hover:bg-purple-200 transition flex items-center">
+                            <i class="fas fa-calendar-alt text-2xl mr-4"></i>
+                            <span>Manage Schedule</span>
+                        </a>
+                    </div>
+                    
+                    <!-- Recent Activity -->
+                    <div class="bg-white p-6 rounded-xl shadow-md mb-8">
+                        <h2 class="text-xl font-bold mb-4">Recent Activity</h2>
+                        <div id="recent-activity" class="space-y-3">
+                            <!-- Activity items will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Notification Settings -->
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h2 class="text-xl font-bold mb-4">Notification Settings</h2>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="enable-notifications" class="rounded text-indigo-600">
+                                <label for="enable-notifications" class="ml-2">Enable Notifications</label>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pl-6">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="remind-health" class="rounded text-indigo-600">
+                                    <label for="remind-health" class="ml-2">Health Reminders</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="remind-study" class="rounded text-indigo-600">
+                                    <label for="remind-study" class="ml-2">Study Reminders</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="remind-breaks" class="rounded text-indigo-600">
+                                    <label for="remind-breaks" class="ml-2">Break Reminders</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="remind-iq" class="rounded text-indigo-600">
+                                    <label for="remind-iq" class="ml-2">IQ Test Reminders</label>
+                                </div>
+                            </div>
+                            
+                            <!-- Push Notification Subscription -->
+                            <div class="pt-4 mt-4 border-t border-gray-200">
+                                <h3 class="font-medium mb-3">Push Notifications</h3>
+                                <button id="push-subscribe-btn" class="bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700">
+                                    <i class="fas fa-bell mr-2"></i>Enable Push Notifications
+                                </button>
+                                <p class="text-sm text-gray-500 mt-2" id="push-status">Status: Not subscribed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating Companion -->
+    <div class="floating-companion" id="companion">
+        <i class="fas fa-robot text-2xl text-indigo-600"></i>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-brain text-2xl"></i>
+                        <h2 class="text-xl font-bold">BrightMind</h2>
+                    </div>
+                    <p class="text-gray-400 mt-2">For PUP Mulanay Students</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-indigo-400"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-indigo-400"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="hover:text-indigo-400"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400">
+                <p>&copy; 2023 BrightMind. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Check if user is logged in
+        const currentUserEmail = localStorage.getItem('currentUser');
+        if (!currentUserEmail) {
+            window.location.href = 'login.html';
+        }
+
+        // Load user data
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const currentUser = users.find(user => user.email === currentUserEmail);
+
+        if (currentUser) {
+            // Update profile info
+            document.getElementById('user-name').textContent = currentUser.name;
+            document.getElementById('user-email').textContent = currentUser.email;
+            
+            const joinDate = new Date(currentUser.joined);
+            document.getElementById('join-date').textContent = joinDate.toLocaleDateString();
+            
+            // Update last IQ test
+            if (currentUser.iqTests && currentUser.iqTests.length > 0) {
+                const lastTest = currentUser.iqTests[currentUser.iqTests.length - 1];
+                document.getElementById('last-iq').textContent = `${lastTest.percentage}% (${new Date(lastTest.date).toLocaleDateString()})`;
+            }
+            
+            // Update health status
+            if (currentUser.healthData && currentUser.healthData.length > 0) {
+                const lastHealth = currentUser.healthData[currentUser.healthData.length - 1];
+                const healthScore = Math.round((lastHealth.focus + lastHealth.sleep + lastHealth.energy) / 3);
+                document.getElementById('health-status').textContent = `${healthScore}% (${new Date(lastHealth.date).toLocaleDateString()})`;
+            }
+            
+            // Load recent activity
+            const activityContainer = document.getElementById('recent-activity');
+            
+            // Add IQ tests to activity
+            if (currentUser.iqTests && currentUser.iqTests.length > 0) {
+                currentUser.iqTests.slice(-3).reverse().forEach(test => {
+                    const activityItem = document.createElement('div');
+                    activityItem.className = 'flex items-start';
+                    activityItem.innerHTML = `
+                        <div class="bg-indigo-100 text-indigo-800 p-2 rounded-lg mr-3">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium">IQ Test Completed</p>
+                            <p class="text-sm text-gray-500">Score: ${test.percentage}% on ${new Date(test.date).toLocaleDateString()}</p>
+                        </div>
+                    `;
+                    activityContainer.appendChild(activityItem);
+                });
+            }
+            
+            // Add health checks to activity
+            if (currentUser.healthData && currentUser.healthData.length > 0) {
+                currentUser.healthData.slice(-3).reverse().forEach(health => {
+                    const activityItem = document.createElement('div');
+                    activityItem.className = 'flex items-start';
+                    activityItem.innerHTML = `
+                        <div class="bg-green-100 text-green-800 p-2 rounded-lg mr-3">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium">Health Check</p>
+                            <p class="text-sm text-gray-500">Completed on ${new Date(health.date).toLocaleDateString()}</p>
+                        </div>
+                    `;
+                    activityContainer.appendChild(activityItem);
+                });
+            }
+            
+            // Show message if no activity
+            if (activityContainer.children.length === 0) {
+                activityContainer.innerHTML = '<p class="text-gray-500">No recent activity yet</p>';
+            }
+
+            // Load notification settings
+            if (currentUser.notificationSettings) {
+                document.getElementById('enable-notifications').checked = currentUser.notificationSettings.enabled || false;
+                document.getElementById('remind-health').checked = currentUser.notificationSettings.remindHealth || false;
+                document.getElementById('remind-study').checked = currentUser.notificationSettings.remindStudy || false;
+                document.getElementById('remind-breaks').checked = currentUser.notificationSettings.remindBreaks || false;
+                document.getElementById('remind-iq').checked = currentUser.notificationSettings.remindIQ || false;
+            }
+        }
+
+        // Save notification settings
+        const notificationInputs = document.querySelectorAll('#enable-notifications, #remind-health, #remind-study, #remind-breaks, #remind-iq');
+        notificationInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+                const userIndex = users.findIndex(user => user.email === currentUserEmail);
+                
+                if (userIndex !== -1) {
+                    if (!users[userIndex].notificationSettings) {
+                        users[userIndex].notificationSettings = {};
+                    }
+                    
+                    users[userIndex].notificationSettings = {
+                        enabled: document.getElementById('enable-notifications').checked,
+                        remindHealth: document.getElementById('remind-health').checked,
+                        remindStudy: document.getElementById('remind-study').checked,
+                        remindBreaks: document.getElementById('remind-breaks').checked,
+                        remindIQ: document.getElementById('remind-iq').checked
+                    };
+                    
+                    localStorage.setItem('users', JSON.stringify(users));
+                }
+            });
+        });
+
+        // Push Notification Subscription
+        document.getElementById('push-subscribe-btn').addEventListener('click', async function() {
+            if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+                alert('Push notifications are not supported in your browser');
+                return;
+            }
+
+            try {
+                const registration = await navigator.serviceWorker.ready;
+                const subscription = await registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: urlBase64ToUint8Array('BLx1q2Zg5Q3Xy7w8v9a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9u0v')
+                });
+
+                // Save subscription to user profile
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+                const userIndex = users.findIndex(user => user.email === currentUserEmail);
+                
+                if (userIndex !== -1) {
+                    users[userIndex].pushSubscription = subscription;
+                    localStorage.setItem('users', JSON.stringify(users));
+                    document.getElementById('push-status').textContent = 'Status: Subscribed';
+                    this.textContent = 'Push Notifications Enabled';
+                    this.classList.remove('bg-indigo-600');
+                    this.classList.add('bg-green-600', 'hover:bg-green-700');
+                }
+            } catch (err) {
+                console.error('Failed to subscribe:', err);
+                alert('Failed to enable push notifications');
+            }
+        });
+
+        // Check push subscription status
+        async function checkPushSubscription() {
+            if ('serviceWorker' in navigator && 'PushManager' in window) {
+                const registration = await navigator.serviceWorker.ready;
+                const subscription = await registration.pushManager.getSubscription();
+                
+                if (subscription) {
+                    document.getElementById('push-status').textContent = 'Status: Subscribed';
+                    document.getElementById('push-subscribe-btn').textContent = 'Push Notifications Enabled';
+                    document.getElementById('push-subscribe-btn').classList.remove('bg-indigo-600');
+                    document.getElementById('push-subscribe-btn').classList.add('bg-green-600', 'hover:bg-green-700');
+                }
+            }
+        }
+
+        // Helper function for VAPID key conversion
+        function urlBase64ToUint8Array(base64String) {
+            const padding = '='.repeat((4 - base64String.length % 4) % 4);
+            const base64 = (base64String + padding)
+                .replace(/-/g, '+')
+                .replace(/_/g, '/');
+
+            const rawData = window.atob(base64);
+            const outputArray = new Uint8Array(rawData.length);
+
+            for (let i = 0; i < rawData.length; ++i) {
+                outputArray[i] = rawData.charCodeAt(i);
+            }
+            return outputArray;
+        }
+
+        // Logout functionality
+        document.getElementById('logout-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        });
+
+        // Initialize push notification check
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                checkPushSubscription();
+            });
+        }
+
+        // Companion interaction
+        const companion = document.getElementById('companion');
+        const companionMessages = [
+            "Hello! How can I help you today?",
+            "Remember to check your health regularly!",
+            "Your progress looks great!",
+            "Don't forget to schedule study sessions"
+        ];
+
+        companion.addEventListener('click', function() {
+            const message = companionMessages[Math.floor(Math.random() * companionMessages.length)];
+            alert(message);
+        });
+    </script>
+</body>
+</html>
