@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tutor - BrightMind</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .chat-message.ai {
+            background-color: #f3f4f6;
+            border-radius: 1rem 1rem 1rem 0;
+        }
+        .chat-message.user {
+            background-color: #6366f1;
+            color: white;
+            border-radius: 1rem 1rem 0 1rem;
+        }
+        #chat-container {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-brain text-2xl"></i>
+                    <h1 class="text-2xl font-bold">BrightMind</h1>
+                </div>
+                <nav>
+                    <ul class="flex space-x-6">
+                        <li><a href="index.html" class="hover:text-indigo-200">Home</a></li>
+                        <li><a href="iq-test.html" class="hover:text-indigo-200">IQ Test</a></li>
+                        <li><a href="health-check.html" class="hover:text-indigo-200">Health Check</a></li>
+                        <li><a href="recommendations.html" class="hover:text-indigo-200">Recommendations</a></li>
+                        <li><a href="tutoring.html" class="hover:text-indigo-200 font-medium">AI Tutor</a></li>
+                        <li><a href="progress.html" class="hover:text-indigo-200">Progress</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-center mb-6">AI Tutor Assistant</h2>
+                
+                <!-- Subject Selection -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">Select a Subject</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <button class="subject-btn bg-indigo-100 text-indigo-800 px-4 py-2 rounded-lg hover:bg-indigo-200 transition" data-subject="math">
+                            <i class="fas fa-square-root-alt mr-2"></i>Mathematics
+                        </button>
+                        <button class="subject-btn bg-green-100 text-green-800 px-4 py-2 rounded-lg hover:bg-green-200 transition" data-subject="science">
+                            <i class="fas fa-flask mr-2"></i>Science
+                        </button>
+                        <button class="subject-btn bg-blue-100 text-blue-800 px-4 py-2 rounded-lg hover:bg-blue-200 transition" data-subject="english">
+                            <i class="fas fa-book mr-2"></i>English
+                        </button>
+                        <button class="subject-btn bg-purple-100 text-purple-800 px-4 py-2 rounded-lg hover:bg-purple-200 transition" data-subject="programming">
+                            <i class="fas fa-code mr-2"></i>Programming
+                        </button>
+                        <button class="subject-btn bg-yellow-100 text-yellow-800 px-4 py-2 rounded-lg hover:bg-yellow-200 transition" data-subject="general">
+                            <i class="fas fa-graduation-cap mr-2"></i>General Study
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Chat Interface -->
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <!-- Chat Header -->
+                    <div class="bg-indigo-600 text-white p-4">
+                        <div class="flex items-center">
+                            <div class="w-3 h-3 bg-green-400 rounded-full mr-2"></div>
+                            <span class="font-medium">AI Tutor</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Chat Messages -->
+                    <div id="chat-container" class="h-96 overflow-y-auto p-4 bg-gray-50">
+                        <div class="chat-message ai mb-4 p-4 max-w-xs md:max-w-md">
+                            <p>Hello! I'm your AI tutor. Please select a subject above or ask me any academic question.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Chat Input -->
+                    <div class="border-t border-gray-200 p-4 bg-white">
+                        <div class="flex">
+                            <input type="text" id="message-input" placeholder="Type your question here..." 
+                                   class="flex-1 border border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <button id="send-btn" class="bg-indigo-600 text-white px-4 py-2 rounded-r-lg hover:bg-indigo-700 transition">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sample Questions -->
+                <div class="mt-6">
+                    <h3 class="text-lg font-semibold mb-3">Try asking:</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <button class="sample-question bg-gray-100 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-200 transition text-left">
+                            How do I solve quadratic equations?
+                        </button>
+                        <button class="sample-question bg-gray-100 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-200 transition text-left">
+                            Explain Newton's laws of motion
+                        </button>
+                        <button class="sample-question bg-gray-100 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-200 transition text-left">
+                            What's the best way to improve my writing?
+                        </button>
+                        <button class="sample-question bg-gray-100 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-200 transition text-left">
+                            How can I manage my study time better?
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-brain text-2xl"></i>
+                        <h2 class="text-xl font-bold">BrightMind</h2>
+                    </div>
+                    <p class="text-gray-400 mt-2">For PUP Mulanay Students</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-indigo-400"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-indigo-400"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="hover:text-indigo-400"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400">
+                <p>&copy; 2023 BrightMind. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // DOM Elements
+        const chatContainer = document.getElementById('chat-container');
+        const messageInput = document.getElementById('message-input');
+        const sendBtn = document.getElementById('send-btn');
+        const subjectBtns = document.querySelectorAll('.subject-btn');
+        const sampleQuestions = document.querySelectorAll('.sample-question');
+        
+        // Current subject
+        let currentSubject = 'general';
+        
+        // Load chat history from localStorage
+        function loadChatHistory() {
+            const chatHistory = JSON.parse(localStorage.getItem('brightmind_chat_history')) || [];
+            
+            // Clear initial message if there's history
+            if (chatHistory.length > 0) {
+                chatContainer.innerHTML = '';
+            }
+            
+            // Display all messages
+            chatHistory.forEach(msg => {
+                addMessageToChat(msg.text, msg.sender);
+            });
+            
+            // Scroll to bottom
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        // Add message to chat
+        function addMessageToChat(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('chat-message', 'mb-4', 'p-4', 'max-w-xs', 'md:max-w-md');
+            
+            if (sender === 'ai') {
+                messageDiv.classList.add('ai');
+                messageDiv.innerHTML = `<p>${text}</p>`;
+            } else {
+                messageDiv.classList.add('user', 'ml-auto');
+                messageDiv.innerHTML = `<p>${text}</p>`;
+            }
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        // Save message to localStorage
+        function saveMessage(text, sender) {
+            const chatHistory = JSON.parse(localStorage.getItem('brightmind_chat_history')) || [];
+            chatHistory.push({
+                text: text,
+                sender: sender,
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('brightmind_chat_history', JSON.stringify(chatHistory));
+        }
+        
+        // Get AI response
+        function getAIResponse(message) {
+            // Simple mock responses - in a real app this would call an API
+            const responses = {
+                'math': {
+                    'quadratic': 'To solve quadratic equations, use the quadratic formula: x = [-b ± √(b²-4ac)]/2a. First identify coefficients a, b, and c from your equation in the form ax² + bx + c = 0.',
+                    'algebra': 'Algebra involves solving for unknown variables. Start by isolating the variable on one side of the equation using inverse operations.',
+                    'default': 'For math help, try breaking problems into smaller steps. Would you like help with a specific math topic like algebra, geometry, or calculus?'
+                },
+                'science': {
+                    'newton': 'Newton\'s three laws of motion: 1) An object in motion stays in motion unless acted upon, 2) F=ma, 3) For every action there\'s an equal and opposite reaction.',
+                    'biology': 'The cell is the basic unit of life. Key organelles include the nucleus (DNA), mitochondria (energy), and ribosomes (protein synthesis).',
+                    'default': 'Science covers many topics. Are you studying physics, chemistry, biology, or another branch?'
+                },
+                'english': {
+                    'writing': 'Improve writing by: 1) Outlining first, 2) Varying sentence structure, 3) Using specific examples, 4) Proofreading carefully.',
+                    'grammar': 'Common grammar mistakes include subject-verb agreement, pronoun case, and comma splices. Practice with exercises to improve.',
+                    'default': 'For English help, focus on reading comprehension, writing skills, or grammar?'
+                },
+                'programming': {
+                    'basics': 'Start with fundamentals: variables, conditionals, loops. Python is a great beginner language with clear syntax.',
+                    'debug': 'Debug by: 1) Checking error messages, 2) Testing small parts, 3) Using print statements, 4) Taking breaks when stuck.',
+                    'default': 'Programming help available for concepts, debugging, or specific languages. What do you need?'
+                },
+                'general': {
+                    'study': 'Effective study techniques: 1) Spaced repetition, 2) Active recall, 3) Pomodoro method, 4) Teaching others, 5) Interleaving topics.',
+                    'time': 'Manage time by: 1) Prioritizing tasks, 2) Breaking work into chunks, 3) Eliminating distractions, 4) Scheduling breaks.',
+                    'default': 'I can help with study strategies, time management, or specific subjects. What would you like to know?'
+                }
+            };
+            
+            // Check for keywords
+            message = message.toLowerCase();
+            let response = '';
+            
+            if (message.includes('quadratic') || message.includes('equation')) {
+                response = responses[currentSubject].quadratic || responses[currentSubject].default;
+            } 
+            else if (message.includes('newton') || message.includes('motion')) {
+                response = responses[currentSubject].newton || responses[currentSubject].default;
+            }
+            else if (message.includes('write') || message.includes('essay')) {
+                response = responses[currentSubject].writing || responses[currentSubject].default;
+            }
+            else if (message.includes('debug') || message.includes('error')) {
+                response = responses[currentSubject].debug || responses[currentSubject].default;
+            }
+            else if (message.includes('study') || message.includes('learn')) {
+                response = responses[currentSubject].study || responses[currentSubject].default;
+            }
+            else if (message.includes('time') || message.includes('manage')) {
+                response = responses[currentSubject].time || responses[currentSubject].default;
+            }
+            else {
+                response = responses[currentSubject].default;
+            }
+            
+            // Add slight delay to simulate thinking
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve(response);
+                }, 1000);
+            });
+        }
+        
+        // Handle subject selection
+        subjectBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                subjectBtns.forEach(b => {
+                    b.classList.remove('bg-indigo-600', 'text-white');
+                    b.classList.add(b.dataset.subject === 'math' ? 'bg-indigo-100' : 
+                                  b.dataset.subject === 'science' ? 'bg-green-100' :
+                                  b.dataset.subject === 'english' ? 'bg-blue-100' :
+                                  b.dataset.subject === 'programming' ? 'bg-purple-100' : 'bg-yellow-100');
+                    b.classList.add(b.dataset.subject === 'math' ? 'text-indigo-800' : 
+                                  b.dataset.subject === 'science' ? 'text-green-800' :
+                                  b.dataset.subject === 'english' ? 'text-blue-800' :
+                                  b.dataset.subject === 'programming' ? 'text-purple-800' : 'text-yellow-800');
+                });
+                
+                // Add active class to clicked button
+                btn.classList.remove(btn.dataset.subject === 'math' ? 'bg-indigo-100' : 
+                                   btn.dataset.subject === 'science' ? 'bg-green-100' :
+                                   btn.dataset.subject === 'english' ? 'bg-blue-100' :
+                                   btn.dataset.subject === 'programming' ? 'bg-purple-100' : 'bg-yellow-100');
+                btn.classList.remove(btn.dataset.subject === 'math' ? 'text-indigo-800' : 
+                                   btn.dataset.subject === 'science' ? 'text-green-800' :
+                                   btn.dataset.subject === 'english' ? 'text-blue-800' :
+                                   btn.dataset.subject === 'programming' ? 'text-purple-800' : 'text-yellow-800');
+                btn.classList.add('bg-indigo-600', 'text-white');
+                
+                // Set current subject
+                currentSubject = btn.dataset.subject;
+                
+                // Add subject message to chat
+                const subjectName = btn.textContent.trim();
+                addMessageToChat(`Now helping with ${subjectName}. What would you like to know?`, 'ai');
+                saveMessage(`Now helping with ${subjectName}. What would you like to know?`, 'ai');
+            });
+        });
+        
+        // Handle sample questions
+        sampleQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                messageInput.value = question.textContent;
+            });
+        });
+        
+        // Handle send message
+        sendBtn.addEventListener('click', async () => {
+            const message = messageInput.value.trim();
+            if (message) {
+                // Add user message to chat
+                addMessageToChat(message, 'user');
+                saveMessage(message, 'user');
+                messageInput.value = '';
+                
+                // Get and display AI response
+                const response = await getAIResponse(message);
+                addMessageToChat(response, 'ai');
+                saveMessage(response, 'ai');
+            }
+        });
+        
+        // Handle Enter key
+        messageInput.addEventListener('keypress', async (e) => {
+            if (e.key === 'Enter') {
+                const message = messageInput.value.trim();
+                if (message) {
+                    // Add user message to chat
+                    addMessageToChat(message, 'user');
+                    saveMessage(message, 'user');
+                    messageInput.value = '';
+                    
+                    // Get and display AI response
+                    const response = await getAIResponse(message);
+                    addMessageToChat(response, 'ai');
+                    saveMessage(response, 'ai');
+                }
+            }
+        });
+        
+        // Load chat history when page loads
+        document.addEventListener('DOMContentLoaded', loadChatHistory);
+    </script>
+</body>
+</html>
